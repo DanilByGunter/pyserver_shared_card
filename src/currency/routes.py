@@ -17,7 +17,7 @@ router = APIRouter(
 async def get_currencys(session: AsyncSession = Depends(get_async_session)):
     query = select(currency)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
+    return result.mappings().all()
 
 
 # возвращает валюту по Id

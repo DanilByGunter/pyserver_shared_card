@@ -17,7 +17,7 @@ router = APIRouter(
 async def get_metrics(session: AsyncSession = Depends(get_async_session)):
     query = select(metric)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
+    return result.mappings().all()
 
 
 # возвращает метрику по Id

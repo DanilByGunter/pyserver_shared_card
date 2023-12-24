@@ -18,7 +18,7 @@ router = APIRouter(
 async def get_products(session: AsyncSession = Depends(get_async_session)):
     query = select(product)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
+    return result.mappings().all()
 
 
 # возвращает все продукты с джойном

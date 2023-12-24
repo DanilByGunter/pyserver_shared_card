@@ -39,11 +39,11 @@ async def post_group(new_group: GroupCreate, session: AsyncSession = Depends(get
     query = insert(group).values(**new_group.dict()).returning(group.c.id)
     result = await session.execute(query)
     result = result.mappings().all()[0]
-    
+
     query = insert(group_token).values(**result)
     await session.execute(query)
     await session.commit()
-    
+
     return {"status": status.HTTP_201_CREATED, 'results': result}
 
 

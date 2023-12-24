@@ -17,7 +17,7 @@ router = APIRouter(
 async def get_shops(session: AsyncSession = Depends(get_async_session)):
     query = select(shop)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
+    return result.mappings().all()
 
 
 # возвращает магазин по Id
