@@ -15,19 +15,19 @@ router = APIRouter(
 
 
 # возвращает все цели
-@router.get('/', status_code=status.HTTP_200_OK)
-async def get_targets(session: AsyncSession = Depends(get_async_session)):
-    query = select(target)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/', status_code=status.HTTP_200_OK)
+# async def get_targets(session: AsyncSession = Depends(get_async_session)):
+#     query = select(target)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # возвращает цель по Id
-@router.get('/{targetId}', status_code=status.HTTP_200_OK)
-async def get_target_id(targetId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
-    query = select(target).where(target.c.id == targetId)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/{targetId}', status_code=status.HTTP_200_OK)
+# async def get_target_id(targetId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
+#     query = select(target).where(target.c.id == targetId)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # возвращает цель по Id группы
@@ -35,7 +35,7 @@ async def get_target_id(targetId: uuid.UUID, session: AsyncSession = Depends(get
 async def get_target_groupid(groupId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
     query = select(target).where(target.c.id_group == groupId)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # создаем цель

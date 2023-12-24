@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_async_session
 from src.user.models import user
+from src.user_account.models import user_account
 from src.user.schemas import UserCreate, UserUpdate
 
 import uuid
@@ -15,11 +16,11 @@ router = APIRouter(
 
 
 # возвращает всех пользователей
-@router.get('/', status_code=status.HTTP_200_OK)
-async def get_users(session: AsyncSession = Depends(get_async_session)):
-    query = select(user)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/', status_code=status.HTTP_200_OK)
+# async def get_users(session: AsyncSession = Depends(get_async_session)):
+#     query = select(user)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # возвращает пользователя по Id
@@ -27,7 +28,7 @@ async def get_users(session: AsyncSession = Depends(get_async_session)):
 async def get_user(userId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
     query = select(user).where(user.c.id == userId)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # создаем пользователя

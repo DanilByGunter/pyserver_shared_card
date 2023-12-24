@@ -4,14 +4,13 @@ import uuid
 
 @unique
 class Role(Enum):
-    CREATOR = "creator"
-    ADMIN = "admin"
-    USER = "user"
+    CREATOR = "CREATOR"
+    ADMIN = "ADMIN"
+    USER = "USER"
 
 class GroupCreate(BaseModel):
     id_user: uuid.UUID
     id_group: uuid.UUID
-    status: bool | None = Role.USER
 
     class Config:
         from_attributes = True
@@ -20,9 +19,8 @@ class GroupCreate(BaseModel):
 
 
 class GroupUpdate(BaseModel):
-    id_user: uuid.UUID | None
-    id_group: uuid.UUID | None
-    status: bool | Role | None
+    id_user: uuid.UUID
+    status: Role | None
 
     class Config:
         from_attributes = True

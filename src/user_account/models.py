@@ -11,7 +11,6 @@ user_account = Table(
     'user_account',
     metadata,
     Column('id', UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True),
-    # Column('id_user', UUID(as_uuid=True), nullable=False, default=uuid.uuid4, unique=True),
     Column('email', String(128), nullable=False),
     Column('registered_at', TIMESTAMP, default=datetime.utcnow),
     Column('hashed_password', String(1024), nullable=False),

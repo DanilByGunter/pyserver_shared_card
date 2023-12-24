@@ -20,5 +20,5 @@ group_user_association = Table(
     Column('id_user', ForeignKey(user.c.id, onupdate="CASCADE", ondelete="CASCADE"), primary_key=True, nullable=False),
     Column('id_group', ForeignKey(group.c.id, onupdate="CASCADE", ondelete="CASCADE"), primary_key=True, nullable=False),
     Column('status', ENUM(Role, name="user_status", create_type=True), default=Role.USER),
-    Column('date_invite', TIMESTAMP, nullable=True, default=datetime.now)
+    Column('date_invite', TIMESTAMP, nullable=True, default=datetime.utcnow)
 )

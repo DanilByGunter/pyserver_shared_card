@@ -22,11 +22,11 @@ router = APIRouter(
 
 
 # возвращает все чеки
-@router.get('/', status_code=status.HTTP_200_OK)
-async def get_checks(session: AsyncSession = Depends(get_async_session)):
-    query = select(check)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/', status_code=status.HTTP_200_OK)
+# async def get_checks(session: AsyncSession = Depends(get_async_session)):
+#     query = select(check)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # # возвращает все чеки с джойном
@@ -34,23 +34,23 @@ async def get_checks(session: AsyncSession = Depends(get_async_session)):
 # async def get_checks_join(session: AsyncSession = Depends(get_async_session)):
 #     query = select(check, category).join(category)
 #     result = await session.execute(query)
-#     return {'status': status.HTTP_200_OK, 'results': result.all()}
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # возвращает чек по Id
-@router.get('/{checkId}', status_code=status.HTTP_200_OK)
-async def get_check_id(checkId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
-    query = select(check).where(check.c.id == checkId)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/{checkId}', status_code=status.HTTP_200_OK)
+# async def get_check_id(checkId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
+#     query = select(check).where(check.c.id == checkId)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
-# возвращает чек по Id
+# возвращает чек по Id группы
 @router.get('/{groupId}', status_code=status.HTTP_200_OK)
 async def get_check_groupid(groupId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
     query = select(check).where(check.c.id_group == groupId)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # # возвращает чек по Id джойном
@@ -58,7 +58,7 @@ async def get_check_groupid(groupId: uuid.UUID, session: AsyncSession = Depends(
 # async def get_check_join(checkId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
 #     query = select(check, product, shop).join(product).join(shop).where(check.c.id == checkId)
 #     result = await session.execute(query)
-#     return {'status': status.HTTP_200_OK, 'results': result.all()}
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # # возвращает чек по groupId джойном
@@ -68,7 +68,7 @@ async def get_check_groupid(groupId: uuid.UUID, session: AsyncSession = Depends(
 #         .join(product).join(metric).join(user).join(shop).join(currency).join(group)\
 #         .where(check.c.id_group == groupId)
 #     result = await session.execute(query)
-#     return {'status': status.HTTP_200_OK, 'results': result.all()}
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # создаем чек

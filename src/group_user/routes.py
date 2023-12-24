@@ -17,41 +17,42 @@ router = APIRouter(
 
 
 # возвращает все сочетания
-@router.get('/', status_code=status.HTTP_200_OK)
-async def get_group_users(session: AsyncSession = Depends(get_async_session)):
-    query = select(group_user_association)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/', status_code=status.HTTP_200_OK)
+# async def get_group_users(session: AsyncSession = Depends(get_async_session)):
+#     query = select(group_user_association)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # возвращает все группы с джойном
-@router.get('/joined', status_code=status.HTTP_200_OK)
-async def get_group_users(session: AsyncSession = Depends(get_async_session)):
-    query = select(group_user_association, group, user).join(group).join(user)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/joined', status_code=status.HTTP_200_OK)
+# async def get_group_users(session: AsyncSession = Depends(get_async_session)):
+#     query = select(group_user_association, group, user).join(group).join(user)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
-# возвращает группу по Id
+# возвращает группу по Id группы
 @router.get('/{groupId}', status_code=status.HTTP_200_OK)
 async def get_group_user(groupId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
     query = select(group_user_association).where(group_user_association.c.id_group == groupId)
     result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+    return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # возвращает группу по Id джойном
-@router.get('/joined/{groupId}', status_code=status.HTTP_200_OK)
-async def get_group_users(groupId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
-    query = select(group_user_association, group, user).join(group).join(user).where(group_user_association.c.id_group == groupId)
-    result = await session.execute(query)
-    return {'status': status.HTTP_200_OK, 'results': result.all()}
+# @router.get('/joined/{groupId}', status_code=status.HTTP_200_OK)
+# async def get_group_users(groupId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
+#     query = select(group_user_association, group, user).join(group).join(user).where(group_user_association.c.id_group == groupId)
+#     result = await session.execute(query)
+#     return {'status': status.HTTP_200_OK, 'results': result.mappings().all()}
 
 
 # создаем связку
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def post_group_user(new_group_user: GroupCreate, session: AsyncSession = Depends(get_async_session)):
     stmt = insert(group_user_association).values(**new_group_user.dict())
+    print(new_group_user.dict())
     print(stmt)
     await session.execute(stmt)
     await session.commit()
@@ -67,10 +68,10 @@ async def patch_group_user(groupId: uuid.UUID, new_group_user: GroupUpdate, sess
     return {"status": status.HTTP_200_OK}
 
 
-# удаляем группу по Id
-@router.delete('/{groupId}', status_code=status.HTTP_204_NO_CONTENT)
-async def delete_group_user(groupId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
-    stmt = delete(group_user_association).where(group_user_association.c.id_group == groupId)
+# удаляем пользователя из группы по Id
+@router.delete('/{userId}', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_group_user(userId: uuid.UUID, session: AsyncSession = Depends(get_async_session)):
+    stmt = delete(group_user_association).where(group_user_association.c.id_user == userId)
     await session.execute(stmt)
     await session.commit()
     return {"status": status.HTTP_204_NO_CONTENT}
